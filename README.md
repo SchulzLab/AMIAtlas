@@ -9,6 +9,9 @@ Abstract: Acute myocardial infarction (AMI) is a leading cause of mortality worl
 Data: zenodo link
 <to put the zenodo link>
 
-
 #### Instructions
-Each folder in the scripts has the files, the R script used to generate the output, and a short README that discusses the requirements to run the script.
+
+Each folder in the scripts has the files required to generate the figure file: , a short README that contains the requirements to run the script.
+
+-   the R script used to generate the figure
+-   a short README that contains the requirements and more information to run the script
