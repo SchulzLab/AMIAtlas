@@ -6,8 +6,9 @@ Author: Ranjan Kumar Maji et al.
 
 Abstract: Acute myocardial infarction (AMI) is a leading cause of mortality worldwide. MicroRNAs (miRNAs), among the other small non coding RNAs, shape the transcript repertoire and control cellular functions. Although single cell technologies are now available to address the response to myocardial ischemia, the study of small RNA regulation is limited by the depth of expression, capture efficiency and the lack of full coverage of transcripts. In addition, the kinetic expression of miRNAs is unknown. Using paired small and total RNA sequencing, we built an expression atlas to study the temporal dynamics of miRNAs and genes in four major heart cell types after AMI. Dynamic expression profiles reveal enriched functions highlighting cell type specific AMI stress response processes. Many of the deregulated mouse genes after AMI overlap with known human cardiovascular disease genes. The dataset is highly valuable for additional research on small and long non-coding RNAs, such as analysis of the regulation of RNA variants by splicing or alternative ORFs. All in all, the RNA expression atlas provides a useful resource to study different roles of RNAs in the major cell types of the heart after AMI.
 
-Data: zenodo link
-<to put the zenodo link>
+#### Data
+
+Zenodo link that hosts pre-processed data [title](https://www.example.com)
 
 #### Instructions
 
