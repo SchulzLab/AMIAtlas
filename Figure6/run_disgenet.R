@@ -153,50 +153,8 @@ dev.off()
 
 
 
-dotplot(xx2, showCategory = 20)
-dotplot(ck, showCategory = 20)
 
 
-
-
-
-ck1 <- compareCluster(geneCluster = something
-                     , fun = enrichDO
-                     # , OrgDb = 'org.Hs.eg.db'
-)
-dotplot(ck1)
-
-
-
-x = enrichDO(list,                                 # DOSE 
-             ont           = "DO",
-             pvalueCutoff  = 0.05,
-             pAdjustMethod = "BH",
-             minGSSize     = 5,
-             maxGSSize     = 500,
-             qvalueCutoff  = 0.05,
-             readable      = FALSE);                                       
-bubble_plot(x, pattern="", filelabel=paste0(celltype, "_DOSE_allfunctions"), height = 20, width = 10)
-edox <- setReadable(x, 'org.Hs.eg.db', 'ENTREZID')
-edox2 <- pairwise_termsim(edox)
-pdf(paste0(celltype,"_DOSE_treeplot.pdf"), width = 15)
-treeplot(edox2)
-dev.off()
-
-dgn <- enrichDGN(list);                               # DisGeNET enrichment
-bubble_plot(dgn, pattern="", filelabel=paste0(celltype, "_Disegnet_allfunctions"), height = 120, width = 20)
-edox <- setReadable(dgn, 'org.Hs.eg.db', 'ENTREZID')
-edox2 <- pairwise_termsim(edox)
-pdf(paste0("/Volumes/Elements_1/smallRNA_MI/disease_assoc/", celltype,"_treeplot.pdf"), width = 15)
-treeplot(edox2)
-dev.off()
-
-ncg <- enrichNCG(list)                                # NetworkCancer
-bubble_plot(ncg, pattern="", filelabel=paste0(celltype,"_NetworkCancer_allfunctions"), height = 120, width = 10)
-
-# ================================== =================================== #
-# Can we draw a plot to show the biological concepts enriched 
-# among the ceRNA genes (mouse)  
 
 
 
