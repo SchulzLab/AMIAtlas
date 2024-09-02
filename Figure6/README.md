@@ -1,4 +1,4 @@
-### Orthologous cardiovascular disease genes
+### Disease enrichment of orthologous cardiovascular disease genes
 
 This script is based on the workflow given in figure 6A, that generates the dot-plot in figure 6B.
 
