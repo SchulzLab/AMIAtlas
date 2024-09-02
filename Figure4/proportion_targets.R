@@ -457,42 +457,42 @@ loadLibraries()
 #------------------------------------------------------------------#
 # this section generates the dot plots 
 #------------------------------------------------------------------#
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){
-# 	df <- get_mir_clusters(celltype="CM", k=5, corr_coeff)
-# 	# read the gene clusters from STEM output
-# 	# gene_profiles <- read_STEM_profiles(celltype="CM")
+for (corr_coeff in seq(-0.4,-0.9, -0.1)){
+	df <- get_mir_clusters(celltype="CM", k=5, corr_coeff)
+	# read the gene clusters from STEM output
+	# gene_profiles <- read_STEM_profiles(celltype="CM")
 
-# 	#generate the gene clusters from HCL on masigpro results
-# 	gene_profiles <- read_masigpro_results(celltype="CM", k=10)
+	#generate the gene clusters from HCL on masigpro results
+	gene_profiles <- read_masigpro_results(celltype="CM", k=10)
 
-# 	dataf <- find_overlap(df, gene_profiles, celltype="CM")
-# 	plot_heatmap(dataf, celltype="CM", width = 6.24, height = 5.30, corr_coeff, k=5)	#8
+	dataf <- find_overlap(df, gene_profiles, celltype="CM")
+	plot_heatmap(dataf, celltype="CM", width = 6.24, height = 5.30, corr_coeff, k=5)	#8
 
-# }
+}
 
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){
-# 	df <- get_mir_clusters(celltype="EC", k=5, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="EC")
-# 	gene_profiles <- read_masigpro_results(celltype="EC", k=10)
-# 	dataf <- find_overlap(df, gene_profiles, celltype="EC")
-# 	plot_heatmap(dataf, celltype="EC", width = 8.24, height = 5.30, corr_coeff, k=5)			#10
-# }
+for (corr_coeff in seq(-0.4,-0.9, -0.1)){
+	df <- get_mir_clusters(celltype="EC", k=5, corr_coeff)
+	# gene_profiles <- read_STEM_profiles(celltype="EC")
+	gene_profiles <- read_masigpro_results(celltype="EC", k=10)
+	dataf <- find_overlap(df, gene_profiles, celltype="EC")
+	plot_heatmap(dataf, celltype="EC", width = 8.24, height = 5.30, corr_coeff, k=5)			#10
+}
 
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){
-# 	df <- get_mir_clusters(celltype="FB", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="FB")
-# 	gene_profiles <- read_masigpro_results(celltype="FB", k=10)
-# 	dataf <- find_overlap(df, gene_profiles, celltype="FB")
-# 	plot_heatmap(dataf, celltype="FB", width = 8.24, height = 5.30, corr_coeff, k=6)			#12
-# }
+for (corr_coeff in seq(-0.4,-0.9, -0.1)){
+	df <- get_mir_clusters(celltype="FB", k=6, corr_coeff)
+	# gene_profiles <- read_STEM_profiles(celltype="FB")
+	gene_profiles <- read_masigpro_results(celltype="FB", k=10)
+	dataf <- find_overlap(df, gene_profiles, celltype="FB")
+	plot_heatmap(dataf, celltype="FB", width = 8.24, height = 5.30, corr_coeff, k=6)			#12
+}
 
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){
-# 	df <- get_mir_clusters(celltype="HC", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="HC")
-# 	gene_profiles <- read_masigpro_results(celltype="HC", k=10)
-# 	dataf <- find_overlap(df, gene_profiles, celltype="HC")
-# 	plot_heatmap(dataf, celltype="HC", width = 8.24, height = 5.30, corr_coeff, k=6)
-# }
+for (corr_coeff in seq(-0.4,-0.9, -0.1)){
+	df <- get_mir_clusters(celltype="HC", k=6, corr_coeff)
+	# gene_profiles <- read_STEM_profiles(celltype="HC")
+	gene_profiles <- read_masigpro_results(celltype="HC", k=10)
+	dataf <- find_overlap(df, gene_profiles, celltype="HC")
+	plot_heatmap(dataf, celltype="HC", width = 8.24, height = 5.30, corr_coeff, k=6)
+}
 
 
 
@@ -735,15 +735,15 @@ functions_permiRNA <- function(miR, celltype, coef){
               row.name = FALSE)
 }
 
-mir_list = c("mmu-miR-465b-5p",
-              "mmu-miR-465c-5p",
-             "mmu-miR-3057-5p", 
-             "mmu-miR-664-5p",
-             "mmu-miR-128-3p")
-for (mir in mir_list) {
-  celltype="CM"
-  functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
-}
+# mir_list = c("mmu-miR-465b-5p",
+#               "mmu-miR-465c-5p",
+#              "mmu-miR-3057-5p", 
+#              "mmu-miR-664-5p",
+#              "mmu-miR-128-3p")
+# for (mir in mir_list) {
+#   celltype="CM"
+#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
+# }
 
 
 # mir_list = c("mmu-miR-208a-3p", 
