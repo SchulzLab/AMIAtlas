@@ -1,3 +1,21 @@
-`functional_enrichment_select_mirnas.R` generates the heatmap for Figure 3: (D) for CMs (E) for ECs (F) for FBs and (G) for HCs.
+### Generate miRNA expression dynamics as line plots
 
-This script also generates the functions enriched within the miRNA target genes of the miRNAs that belong to the miRNA clusters. Among the functions that are enriched, only the top 3 enriched ones are shown in the main figure 3 for each cell type.
+
+In order to check expression dynamics of known cell type specific miRNAs compared between cell types (figure 3A,B,C), we use the script `generate_miRNA_expression_plots.R` as shown below:
+
+
+`Rscript generate_miRNA_expression_plots.R -e mmu-miR-208a-5p -g miR-208a-5p -o mmu-miR-208a-5p`
+`Rscript generate_miRNA_expression_plots.R -e mmu-miR-208a-3p -g miR-208a-3p -o mmu-miR-208a-3p`
+
+
+`Rscript generate_miRNA_expression_plots.R -e mmu-miR-126b-3p -g miR-126b-3p -o mmu-miR-126b-3p`
+`Rscript generate_miRNA_expression_plots.R -e mmu-miR-126b-5p -g miR-126b-5p -o mmu-miR-126b-5p`
+
+
+`Rscript generate_miRNA_expression_plots.R -e mmu-miR-21a-3p -g miR-21a-3p -o mmu-miR-21a-3p`
+`Rscript generate_miRNA_expression_plots.R -e mmu-miR-21a-5p -g miR-21a-5p -o mmu-miR-21a-5p`
+
+
+### Generate miRNA expression heatmaps and functional enrichment of the expression clusters
+
+The script `functional_enrichment_select_mirnas.R` generates the heatmaps of the normalized expression, for each cell type, generates clusters based on hierarchical clustering, and performs GO functional enrichment of the target genes for all miRNAs in cluster (Figures 3D-G). The functions for each cell type and for each miRNA cluster are written in individual text files.
