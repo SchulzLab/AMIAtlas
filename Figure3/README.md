@@ -5,14 +5,17 @@ In order to check expression dynamics of known cell-type specific miRNAs compare
 
 
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-208a-5p -g miR-208a-5p -o mmu-miR-208a-5p`
+
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-208a-3p -g miR-208a-3p -o mmu-miR-208a-3p`
 
 
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-126b-3p -g miR-126b-3p -o mmu-miR-126b-3p`
+
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-126b-5p -g miR-126b-5p -o mmu-miR-126b-5p`
 
 
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-21a-3p -g miR-21a-3p -o mmu-miR-21a-3p`
+
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-21a-5p -g miR-21a-5p -o mmu-miR-21a-5p`
 
 
