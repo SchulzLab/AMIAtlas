@@ -8,7 +8,7 @@ maSigPro is used to find the significant genes at each time point over Day 0. Th
 
 >`Rscript run_masigpro_FB.R`
 
->`Rscript run_masigpro_.R`
+>`Rscript run_masigpro_HC.R`
 
 This is then used by `maSigpro_celltypes.R` to generate the upset plots that show the overlap of DE genes at each timepoint.
 
