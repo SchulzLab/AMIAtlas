@@ -18,6 +18,8 @@ if (is.null(opt$c)){
   print_help(opt_parser)
   stop("At least one argument must be supplied as the cell type", call.=FALSE)
 } 
+
+get1 = readRDS(file = paste0("MyIso_gene_",opt$c,".rds")) # generated from the other script
 # ======================================= install.packages("UpSetR") =============================================
 library("UpSetR")
 pdf(paste0("upset_",opt$c,".2.pdf"),
