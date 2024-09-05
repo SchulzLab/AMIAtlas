@@ -13,7 +13,7 @@ maSigPro is used to find the significant genes at each time point over Day 0. Th
 #### Data
 
 (i) tab seperated normalied expression files
-(ii) rds of the masigpro run, generated in the current directory. 
+(ii) rds of the masigpro run, generated in the current directory for each cell type by the first script. This is then required by the next script. 
 
 >`Rscript run_masigpro_CM.R`
 
