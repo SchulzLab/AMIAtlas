@@ -4,7 +4,21 @@ This script generates the plots in the **supplementary figures 6 A**, using all 
 
 First, `make_interactionn_table.R` is used to create the matrix of known miRNA gene interactions. The resulting matrix variable `mat_intr` is used by `sponge_eachCelltype.R` to have the resultant ceRNA genes for each cell type.
 
-Finally, to get the GO enriched functions for the ceRNA genes using all cell types for *molecular functions* and *biological processes* , we use `ceRNA_functional_barplots.R` that generates the bar plots in **supplementary figure 6 B.**
+Finally, to get the GO enriched functions for the ceRNA genes using all cell types for *molecular functions* and *biological processes* , we use 
+
+>`Rscript ceRNA_functional_barplots.R`
+
+which generates the bar plots as in **supplementary figure 6 B.**
+
+### Prerequisites
+
+#### Packages
+
+Requires R packages `gprofiler2` and `clusterProfiler` for functional enrichments, and `ggplot2` for plotting.
+
+#### Data
+
+ceRNA genes are declared in the script. There are no additional data requirements.
 
 ### Reference
 
