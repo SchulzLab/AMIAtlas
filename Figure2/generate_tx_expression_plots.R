@@ -1,5 +1,3 @@
-
-
 # This program takes a gene input and plots (in log2 scale) the mean expression along the timepoints
 # for all the celltypes
 # argument 1 = ensembl gene id
@@ -18,12 +16,13 @@ option_list = list(
 
 	make_option(c("-o", "--outname"), type="character", default="out.txt", 
               help="name appended to the output file name", metavar="character")
+
+	make_option(c("-c", "--celltype"), type="character", default=NULL, 
+        help="cell type, one of CM, EC, FB, HC", metavar="character")
 ); 
  
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
-
-
 
 if (is.null(opt$ens)){
   print_help(opt_parser)
@@ -33,6 +32,8 @@ if (is.null(opt$ens)){
   stop("provide gene name (as appears in the title of the plot)", call.=FALSE)
 } else if (is.null(opt$o)){
 	stop("name appended to the output file name, preferable the gene name / symbol", call.=FALSE)
+}else if (is.null(opt$c)){
+	stop("provide interested cell type", call.=FALSE)
 }
 
 
@@ -82,8 +83,8 @@ plot_tx_expression <- function(mtr_stats_wider_all, gene_name){
 	
 }
 
-dir = "/projects/amitimeseries/work/Normalized_gene_expression/"
-cltyps = c("CM") # "CM", "EC", "FB", "HC")
+dir = "./expression/"
+cltyps = opt$c				#c("CM") # "CM", "EC", "FB", "HC")
 gene_expr_all = data.frame()
 for (ct in head(cltyps,4)) {
 
@@ -134,7 +135,6 @@ for (ct in head(cltyps,4)) {
 		print("reordered----------------")
 		print(head(gene_expr))
 
-
 	}
 
 	colnames(gene_expr) = c("X", paste0(rep("D0_", 4), 1:4),
@@ -151,7 +151,6 @@ for (ct in head(cltyps,4)) {
 
 }
 
-
 something <- gene_expr_all %>% 
 	    				pivot_longer(!c("X", "ct"), names_to = "timepoint", values_to = "expr") %>% 
 	    				rowwise() %>%
@@ -159,23 +158,18 @@ something <- gene_expr_all %>%
 	                  					,logexpr = log2(as.numeric(expr) )) 
 
 
-    print("--------------------something---------------------")              					 
-  	print(something)
-
   	gene_expr_stats = something %>% 
 						dplyr::group_by(time, X, ct) %>%
 						dplyr::summarise(mean = mean(logexpr), sd = sd(logexpr))
-	print("----------------------gene_expr_stats$time---------------")
+
 	print(gene_expr_stats$time)
 	gene_expr_stats$time <- factor(gene_expr_stats$time, levels=c("D0", "D1", "D3","D7","D14" ,"D28" ))
 
-
-	print("----------------------gene_expr_stats---------------")
 	print(gene_expr_stats)
 
 	plot_tx_expression(gene_expr_stats, gene_name=opt$gname) #"Stk39")
 
-	ggsave(paste0(opt$outname,"_TDMD_tx_analysis_log2.1.pdf"), 
+	ggsave(paste0("./results/",opt$outname,"_gene_expression_log2.1.pdf"), 
 			units = "in", width = 7, height = 3)
 
 #"Stk39

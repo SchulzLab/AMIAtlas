@@ -32,22 +32,22 @@ The enrichment of the functions are then compared among the clusters identified 
 In order to check expression dynamics of specific genes in a cell-type (**figures** 2C,D,G,H,O,P), we use the script `generate_tx_expression_plots.R` as shown below:
 
 ##### CM
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000029580 -g Actb -o Actb`
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000029580 -g Actb -o Actb -c CM`
 
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000057329 -g Bcl2 -o Bcl2`
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000057329 -g Bcl2 -o Bcl2 -c CM`
 
 ##### EC
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000001847 -g Rac1 -o Rac1`
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000001847 -g Rac1 -o Rac1 -c EC`
 
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000006699 -g Cdc42 -o Cdc42`
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000006699 -g Cdc42 -o Cdc42 -c EC`
 
 ##### FB
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000026043  -g Col3a1 -o Col3a1` 
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000026043  -g Col3a1 -o Col3a1 -c FB` 
 
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000062006 -g Rpl34 -o Rpl34`
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000062006 -g Rpl34 -o Rpl34 -c FB`
 
 ##### HC
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000027398 -g Il1b -o Il1b`
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000027398 -g Il1b -o Il1b -c HC`
 
->`Rscript generate_tx_expression_plots.R -e ENSMUSG00000032725 -g Folr2 -o Folr2`
+>`Rscript generate_tx_expression_plots.R -e ENSMUSG00000032725 -g Folr2 -o Folr2 -c HC`
 
