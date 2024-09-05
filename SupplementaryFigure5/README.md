@@ -5,6 +5,17 @@
 
 In order to verify higher expression visually in one cell type of interest, compared to others (figures in **Supplementary figures 5A-D**), we use `generate_miRNA_expression_plots.R` as shown below, to generate the miRNA expression plots for all cell types:
 
+### Prerequisites
+
+#### Packages
+
+`optparse` for parsing options; `tidyr` for data manipulation and `ggplot2` for plotting.
+
+
+#### Data
+
+miRNA expression files provided in the folder `./expression/<CT>_mature_normalized_CPM.1.txt`. These are the CPM normalized miRNA expression, where CT stands for either CM, FB, EC or HC.
+
 ##### CMs 
 
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-465b-5p -g miR-465b-5p -o mmu-miR-465b-5p` 

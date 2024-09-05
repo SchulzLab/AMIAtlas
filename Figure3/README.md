@@ -15,7 +15,7 @@ In order to check expression dynamics of known cell-type specific miRNAs compare
 
 #### Data
 
-miRNA expression files provided in the folder `expression/<CT>_mature_normalized_CPM.1.txt`. These are the CPM normalized miRNA expression, where CT stands for either CM, FB, EC or HC
+miRNA expression files provided in the folder `expression/<CT>_mature_normalized_CPM.1.txt`. These are the CPM normalized miRNA expression, where CT stands for either CM, FB, EC or HC.
 
 
 
