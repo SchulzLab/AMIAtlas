@@ -11,7 +11,7 @@ The script `comparing_targets.R` generates the lollipop plots for the top 5 cell
 
 #### Packages
 
-Requires R packages: `gprofiler2` and `clusterProfiler`
+Requires R packages: `gprofiler2` and `clusterProfiler` for functional enrichment analysis.
 
 #### Data
 

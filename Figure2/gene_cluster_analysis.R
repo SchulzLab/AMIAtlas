@@ -50,10 +50,10 @@ read_masigpro_results <- function(celltype, k){
 	print(getwd())
 
 	if(celltype=="CM" | celltype=="EC")
-		d <- read.csv2(paste0("gene_clusters/",celltype,"_significant_genes_anno.txt")
+		d <- read.csv2(paste0("./significant_genes/",celltype,"_significant_genes_anno.txt")
 					, sep=",")
 	else
-		d <- read.csv2(paste0("gene_clusters/",celltype,"_significant_genes_remout_anno.txt")
+		d <- read.csv2(paste0("./significant_genes/",celltype,"_significant_genes_remout_anno.txt")
 					, sep=",")
 	
 	if(celltype=="CM")
@@ -71,20 +71,6 @@ read_masigpro_results <- function(celltype, k){
 	d_select <- d_select %>% dplyr::select(-id) 
 	d_select <- mutate_all(d_select, function(x) as.numeric(as.character(x)))
 	
-    # res <- pheatmap(d_select,
-    #     color = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
-    #         scale="row",
-    #         clustering_distance_rows = "correlation",
-    #         cluster_cols=F,
-    #         show_rownames=F,
-    #         border_color=NA,
-    #         treeheight_row = 0,
-    #         cutree_rows = 10,
-    #         filename=paste0("gene_clusters/",celltype,"_Heatmap_significant_mod1.1.pdf"),
-    #         width = 3.5,
-    #         height  = 8
-    # )
-
 	clustered_data <- pheatmap(d_select, 								
 							cluster_rows = TRUE, 
 							cluster_cols=FALSE,
@@ -107,11 +93,6 @@ read_masigpro_results <- function(celltype, k){
 							width = 3.5, 
 							height =  8							
 							) 
-
-	
-	# d_select.clust <- data.frame(cbind(d_select, 
-	# 							cluster = cutree(res$tree_row, 
-	# 											k = k)))
 
 	# print(res$tree_row$order)  
 	clustering_res <- as.data.frame(clustered_data$kmeans$cluster) 
@@ -149,8 +130,8 @@ functional_analysis <- function(res, celltype){
 						, OrgDb = 'org.Mm.eg.db'
 						, keyType="ENTREZID")
 	
-	write.table(ck
-				, paste0("gene_clusters/",celltype,"_functional_enrichments.before.txt"), sep="\t")
+	# write.table(ck
+	# 			, paste0("gene_clusters/",celltype,"_functional_enrichments.before.txt"), sep="\t")
 
 	xx2 <- pairwise_termsim(ck, method="JC")
 
@@ -163,7 +144,7 @@ functional_analysis <- function(res, celltype){
 	
 	# TODO: add column xlabel
 	y %>% arrange(-GeneRatio, -logpadj) %>%
-				write.table(paste0("gene_clusters/",celltype,"_functional_enrichments.1.txt"), 
+				write.table(paste0("./results/",celltype,"_functional_enrichments.1.txt"), 
 				sep="\t", 
 				row.names=FALSE)
     
@@ -178,7 +159,7 @@ functional_analysis <- function(res, celltype){
 		xlab("") + 
 		ggtitle(paste0("GO enrichment analysis of clusters in ",celltype))
 
-	ggsave(paste0("gene_clusters/",celltype,"_gene_clusters_dotplot.pdf")
+	ggsave(paste0("./results/",celltype,"_gene_clusters_dotplot.pdf")
 		,width=20
 		,height=50
 		, limitsize = FALSE)
@@ -258,7 +239,7 @@ functional_analysis <- function(res, celltype){
 		theme(axis.text=element_text(size=18, colour = "black"))
 		# ggtitle("GO enrichment analysis of clusters in CM (selected)")
 
-    ggsave(paste0("gene_clusters/",celltype,"_gene_clusters_dotplot.selected.1.pdf"),
+    ggsave(paste0("./results/",celltype,"_gene_clusters_dotplot.selected.1.pdf"),
                     width = 12,
                     height = 2,
                     limitsize = TRUE)
