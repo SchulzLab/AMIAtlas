@@ -11,7 +11,7 @@ To generate the functions enriched of the cell-type specific miRNAs (written in 
 
 #### Packages
 
-Requires R packages: gprofiler2 and clusterProfiler
+Requires R packages: `gprofiler2` and `clusterProfiler`
 
 #### Data
 
