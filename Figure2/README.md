@@ -31,13 +31,13 @@ The enrichment of the functions are then compared among the clusters identified 
 
 In order to check expression dynamics of specific genes in a cell-type (**figures** 2C,D,G,H,O,P), we use the script `generate_tx_expression_plots.R` as shown below:
 
-#### Prerequisites
+### Prerequisites
 
-##### Packages
+#### Packages
 
 `optparse` for parsing options; ggplot2 for plotting; `tidyr` for data manipulations.
 
-##### Data
+#### Data
 
 Normalized expression files for each cell type as in the folder `./expression/norm_gene_counts_<CT>.csv` where cell type refers to CM, EC, FB or HC.
 
