@@ -18,10 +18,7 @@ numtargets <- function(celltype){
                     , sep="\t"
                     ,header = TRUE) 
     
-    # all_data <- data %>% count(mature); View(all_data)
-    # cat("\n"); print(head(data))
-
-    data_filter <- data %>% 
+      data_filter <- data %>% 
                         dplyr::mutate(tmp.estimate = as.numeric(as.character(tmp.estimate))) %>%
                         filter(tmp.estimate < -0.4) %>%
                         count(mature)
