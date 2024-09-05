@@ -113,8 +113,6 @@ for (ct in head(cltyps,4)) {
 		gene_expr <- gene_expr[, col_order]
 		print("reordered----------------")
 		print(head(gene_expr))
-
-
 	}
 
 	if(ct == "HC"){
