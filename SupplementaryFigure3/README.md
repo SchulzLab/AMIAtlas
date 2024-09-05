@@ -1,5 +1,21 @@
 ### Overlap of differentially expressed genes
 
+
+Prerequisites
+
+
+Packages
+
+
+
+
+Data
+
+
+
+
+
+
 maSigPro is used to find the significant genes at each time point over Day 0. This script generates an R datastructure (.rds) that stores the masigpro results.
 
 >`Rscript run_masigpro_CM.R`
@@ -22,9 +38,26 @@ This is then used by `maSigpro_celltypes.R` to generate the upset plots that sho
 
 This generates plots as in Supplementary figure 3A-D.
 
+-------------
+
 ### Overlap of differentially expressed miRNAs
 
-maSigPro is used to find the significant miRNAs across each timepoint.
+maSigPro is used to find the significant miRNAs across all timepoints. The script also generates the heatmap and the upset plot as in Supplementary figure 3E-H.
+
+### Prerequisites
+
+
+#### Packages
+
+`maSigPro`, `pheatmap`, `UpSetR` 
+
+
+#### Data
+
+configuration lists out the column names, after removal of the outliers, 
+
+
+We then run the script as:
 
 >`Rscript miR_masigpro_CM.r`
 
@@ -34,4 +67,4 @@ maSigPro is used to find the significant miRNAs across each timepoint.
 
 >`Rscript miR_masigpro_remout_HC.r`
 
-This generates plots as in Supplementary figure 3E-H.
+
