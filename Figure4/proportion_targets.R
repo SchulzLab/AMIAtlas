@@ -23,13 +23,13 @@ get_mir_clusters <- function(celltype, k, corr_coeff) {
 
   cat("entering function get_mir_clusters\n")
 
-  dir <- "/projects/amitimeseries/work/smallRNA_AMI/miRBase_counts/"
+  dir <- "./expression/"
   if (celltype == "CM") {
     samples <- read.table(file.path(paste0(dir, "CM/samples_CM_new.txt")),
                           header = TRUE)
   }else {
     samples <- read.table(file.path(paste0(dir,
-                                           celltype,
+                                          #  celltype,
                                            "/samples_",
                                            celltype,
                                            "_remout.txt")),
@@ -62,7 +62,7 @@ get_mir_clusters <- function(celltype, k, corr_coeff) {
                            paste("d28", rep(celltype, 4), 1:4, sep = "_"))
 
   data.mir.CM <- read.table(file.path(paste0(dir,
-                                             celltype,
+                                            #  celltype,
                                              "/", celltype,
                                              "_mature_normalized_CPM.1.txt")),
                             header = TRUE)
@@ -86,7 +86,7 @@ get_mir_clusters <- function(celltype, k, corr_coeff) {
                   show_rownames = F,
                   border_color = NA,
                   cutree_rows = k,
-                  filename = paste0("Heatmap_significant_miR_", celltype, ".", 
+                  filename = paste0("./results/Heatmap_significant_miR_", celltype, ".", 
                                     k,
                                     "_mod.2.pdf")
                   )
@@ -121,7 +121,7 @@ get_mircluster_targets <- function(mir_list, celltype, corr_coeff){
 
   cat("get gene targets of ", mir_list, "\n")
 
-  dir = "/projects/amitimeseries/work/smallRNA_AMI/miRNA_mRNA_corr/v2/"
+  dir = "./correlations/"
 
 	#read the correlations
   file = paste0(dir, celltype, "_spearman_alltimepoints_anno.tsv")
@@ -137,39 +137,6 @@ get_mircluster_targets <- function(mir_list, celltype, corr_coeff){
                       dplyr::filter(mature %in% mir_list) #== "mmu-let-7a-2-3p")
 
   return(data_filter)	
-
-}
-
-# read the profiles of the genes from the STEM output
-read_STEM_profiles <- function(celltype){
-
-	cat("within function: read_STEM_profiles\n")
-	dir = "/projects/amitimeseries/work/smallRNA_AMI/AMI_STEM_analysis/gene_clustering_analysis/"
-
-	data<-read.csv2(file=(paste0(dir, celltype,"_expression_clustering_profile.csv"))
-					, sep=","
-                    ,header = TRUE) 
-	print(dim(data)) # print(names(data));
-	
-
-	#how many unique profiles
-	uniq_profiles <- data %>% select(profile) %>% unique()
-	
-	print(uniq_profiles$profile);print(length(uniq_profiles$profile))
-
-
-	#compute for each cluster
-	gene_profiles = list()
-	
-	for(x in 1:length(uniq_profiles$profile)){
-		first_profile = data %>% filter(profile == uniq_profiles$profile[x])
-		print(dim(first_profile))
-
-		gene_profiles[[x]] <- first_profile$genes
-
-	}	
-
-	return(gene_profiles)
 
 }
 
@@ -222,7 +189,6 @@ find_overlap <- function(df, gene_profiles, celltype){
 											,toupper(tar$name	)				#gene_profiles[[i]])
 											))
 								)
-					# print(num)#
 
 					den = length(tar$name)							#gene_profiles[[i]])
 
@@ -236,11 +202,6 @@ find_overlap <- function(df, gene_profiles, celltype){
 					denb = length(totalmiRtargets)/length(totalgenes)
 
 					a$value[count] = numb #/ denb #(length(totalmiRtargets)/length(totalgenes))
-					
-					# print(totalmiRtargets); print(unique(df[[j]]))
-					# print(length(totalmiRtargets) ) #print(totalmiRtargets)
-					# print(length(df[[j]])) # print(df[[j]]); 
-					# print(length(unique(df[[j]])))
 
 					S = length (intersect(toupper(setdiff(totalmiRtargets, unique(df[[j]])))
 										,toupper(tar$name)))			#gene_profiles[[i]])))
@@ -298,34 +259,11 @@ find_overlap <- function(df, gene_profiles, celltype){
 
 }
 
-
-gen_example_data <- function() {
-    # set.seed(8)
-    # m <- matrix(round(rnorm(200), 2), 10, 10)
-    # colnames(m) <- paste("Col", 1:10)
-    # rownames(m) <- paste("Row", 1:10)    
-    # # Transform the matrix in long format
-    # df <- melt(m)
-    # colnames(df) <- c("x", "y", "value")
-    # return(df)
-
-    d <- data.frame(
-		x = rep(paste("X", LETTERS[1:8]), 4),
-		y = rep(paste("C", 1:8), each = 8),
-		value = runif(32)    
-    ) 
-	return(d)
-}
-
 # function to plot the ratio and the fishers exact test p value
 plot_heatmap <- function(d, celltype, width, height, corr_coeff, k){
 
   d <- d %>% mutate(y = forcats::fct_relevel(y, paste0("X", 1:10)))
-  # print(str(d))
 
-  print(max(d$value))
-  print(as.character(round(max(d$value),1)))
-	#https://stackoverflow.com/questions/67746044/r-heatmap-with-circles
   ggplot(d, aes(y
           ,forcats::fct_rev(x)
           ,fill = value
@@ -335,7 +273,7 @@ plot_heatmap <- function(d, celltype, width, height, corr_coeff, k){
     geom_hline(yintercept = seq(.5, 10.5, 1), size = .2) +
     geom_vline(xintercept = seq(.5, 15.5, 1), size = .2) +
     scale_x_discrete(position = "top") +
-    scale_size(range = c(0, 12)) + #8  #15)) +
+    scale_size(range = c(0, 12)) +
     scale_fill_gradient(low = "orange",
                         high = "blue",
                       breaks = c(0, 0.1, (max(d$value)))
@@ -353,7 +291,7 @@ plot_heatmap <- function(d, celltype, width, height, corr_coeff, k){
            fill = guide_colorbar(ticks.colour = NA, title.position = "top", order = 2)) +
     labs(size = "-log(adjp.val)", fill = "Normalized \nratio", x = NULL, y = NULL)
 	
-	ggsave(paste0("Norm_intersect.masigpro.",celltype,".", k, "." ,corr_coeff,".2.pdf")
+	ggsave(paste0("./results/Norm_intersect.masigpro.",celltype,".", k, "." ,corr_coeff,".2.pdf")
 			, width = width, height = height)  # )
 
 }
@@ -363,10 +301,10 @@ read_masigpro_results <- function(celltype, k){
 	print(getwd())
 
 	if(celltype=="CM" | celltype=="EC")
-		d <- read.csv2(paste0("gene_clusters/",celltype,"_significant_genes_anno.txt")
+		d <- read.csv2(paste0("./significant_genes/",celltype,"_significant_genes_anno.txt")
 					, sep=",")
 	else
-		d <- read.csv2(paste0("gene_clusters/",celltype,"_significant_genes_remout_anno.txt")
+		d <- read.csv2(paste0("./significant_genes/",celltype,"_significant_genes_remout_anno.txt")
 					, sep=",")
 	
   if (celltype == "CM")
@@ -384,20 +322,6 @@ read_masigpro_results <- function(celltype, k){
 	d_select <- d_select %>% dplyr::select(-id) 
 	d_select <- mutate_all(d_select, function(x) as.numeric(as.character(x)))
 	
-	# res <-  pheatmap(d_select,
-	# 	color = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
-    #      scale="row",
-    #      clustering_distance_rows = "correlation",
-    #      cluster_cols=F,
-    #      show_rownames=F,
-    #      border_color=NA,
-	# 	 treeheight_row = 0,
-	# 	 cutree_rows = 10,
-    #      filename="masigpro/CM_Heatmap_significant_mod1.1.pdf",
-	# 	 width = 3.5,
-	# 	 height  = 8
-	# )
-
 	clustered_data <- pheatmap(d_select, 								
 							cluster_rows = TRUE, 
 							cluster_cols=FALSE,
@@ -421,12 +345,6 @@ read_masigpro_results <- function(celltype, k){
 							# height =  8							
 							) 
 
-	
-	# d_select.clust <- data.frame(cbind(d_select, 
-	# 							cluster = cutree(res$tree_row, 
-	# 											k = k)))
-
-	# print(res$tree_row$order)  
 	clustering_res <- as.data.frame(clustered_data$kmeans$cluster) 
 	colnames(clustering_res) = "cluster_id"
 	d_select.clust <- merge(d_select, clustering_res, by=0, all=TRUE)
@@ -451,7 +369,7 @@ read_masigpro_results <- function(celltype, k){
 	return(something)
 	
 }
-# dataf <- gen_example_data()
+
 
 loadLibraries()
 #------------------------------------------------------------------#
@@ -461,10 +379,8 @@ for (corr_coeff in seq(-0.4,-0.9, -0.1)){
 	df <- get_mir_clusters(celltype="CM", k=5, corr_coeff)
 	# read the gene clusters from STEM output
 	# gene_profiles <- read_STEM_profiles(celltype="CM")
-
 	#generate the gene clusters from HCL on masigpro results
 	gene_profiles <- read_masigpro_results(celltype="CM", k=10)
-
 	dataf <- find_overlap(df, gene_profiles, celltype="CM")
 	plot_heatmap(dataf, celltype="CM", width = 6.24, height = 5.30, corr_coeff, k=5)	#8
 
@@ -649,47 +565,7 @@ find_overlap_goids <- function(df, gene_profiles, celltype){
 
 }
 
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){  #c(0.4)) { 
 
-#   # #get the target genes from the miRNA clusters
-# 	df <- get_mir_clusters(celltype="CM", k=5, corr_coeff)
-  
-#   #get GO iids of the miRNA targets from each cluster
-#   miR.cluster.goids <- get_functions(df, noconvert=1) 
-
-# 	#generate the gene clusters from HCL on masigpro results
-# 	gene_profiles <- read_masigpro_results(celltype="CM", k=10)
-#   gene.cluster.goids <- get_functions(gene_profiles, noconvert=0)   
-
-#   dataf <- find_overlap_goids(miR.cluster.goids, gene.cluster.goids, celltype="CM")
-
-# 	plot_heatmap(dataf, celltype=".functions.CM", width = 6.24, height = 6.30, corr_coeff, k=5)	#8
-
-# }
-
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){
-# 	df <- get_mir_clusters(celltype="EC", k=5, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="EC")
-# 	gene_profiles <- read_masigpro_results(celltype="EC", k=10)
-# 	dataf <- find_overlap(df, gene_profiles, celltype="EC")
-# 	plot_heatmap(dataf, celltype=".functions.EC", width = 8.24, height = 5.30, corr_coeff, k=5)			#10
-# }
-
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){
-# 	df <- get_mir_clusters(celltype="FB", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="FB")
-# 	gene_profiles <- read_masigpro_results(celltype="FB", k=10)
-# 	dataf <- find_overlap(df, gene_profiles, celltype="FB")
-# 	plot_heatmap(dataf, celltype=".functions.FB", width = 8.24, height = 5.30, corr_coeff, k=6)			#12
-# }
-
-# for (corr_coeff in seq(-0.4,-0.9, -0.1)){
-# 	df <- get_mir_clusters(celltype="HC", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="HC")
-# 	gene_profiles <- read_masigpro_results(celltype="HC", k=10)
-# 	dataf <- find_overlap(df, gene_profiles, celltype="HC")
-# 	plot_heatmap(dataf, celltype="functions.HC", width = 8.24, height = 5.30, corr_coeff, k=6)
-# }
 
 
 #-----------------------------------------------------------------------------#
@@ -734,47 +610,3 @@ functions_permiRNA <- function(miR, celltype, coef){
               quote = FALSE,
               row.name = FALSE)
 }
-
-# mir_list = c("mmu-miR-465b-5p",
-#               "mmu-miR-465c-5p",
-#              "mmu-miR-3057-5p", 
-#              "mmu-miR-664-5p",
-#              "mmu-miR-128-3p")
-# for (mir in mir_list) {
-#   celltype="CM"
-#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
-# }
-
-
-# mir_list = c("mmu-miR-208a-3p", 
-#             "mmu-miR-3470b",
-#             "mmu-miR-9-3p",
-#             "mmu-miR-706",
-#             "mmu-miR-466i-5p")
-# for (mir in mir_list) {
-#   celltype="EC"
-#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
-# }
-
-
-# mir_list = c("mmu-miR-344d-3p",
-#             "mmu-miR-6952-3p", 
-#              "mmu-miR-6240", 
-#             "mmu-miR-7689-3p",
-#             "mmu-miR-200c-3p"
-#  )
-# for (mir in mir_list) {
-#   celltype="FB"
-#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
-# }
-
-# mir_list = c("mmu-miR-466g",
-#              "mmu-miR-466d-3p",
-#               "mmu-miR-669f-3p", 
-#               "mmu-miR-466i-3p", 
-#               "mmu-miR-297b-5p", 
-#               "mmu-miR-744-3p")
-# for (mir in mir_list) {
-#   celltype="HC"
-#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.7)
-# }
