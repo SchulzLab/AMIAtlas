@@ -13,8 +13,10 @@ Requires R packages: `gprofiler2` and `clusterProfiler`
 
 #### Data
 
-Data required for the script are provided in zenodo. The script requires 
+Data required for the script are provided in zenodo. The script requires:
+
 (i) miRNA spearman correlations, for each celltype: provided in the folder `correlations/<CT>_spearman_alltimepoints_anno.tsv`. CT stands for either CM, FB, EC or HC.
+
 (ii) miRNA expression files provided in the folder `expression/<CT>_mature_normalized_CPM.1.txt`. These are the CPM normalized miRNA expression, where CT stands for either CM, FB, EC or HC.
 
 ------------
