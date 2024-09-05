@@ -3,7 +3,7 @@
 ### Generate miRNA expression dynamic plots
 
 
-In order to verify higher expression visually in one cell type of interest, compared to others (figures in **Supplementary figures 5A-D**), we use `generate_miRNA_expression_plots.R` as shown below, to genenate the miRNA expression plots for all cell types:
+In order to verify higher expression visually in one cell type of interest, compared to others (figures in **Supplementary figures 5A-D**), we use `generate_miRNA_expression_plots.R` as shown below, to generate the miRNA expression plots for all cell types:
 
 ##### CMs 
 
