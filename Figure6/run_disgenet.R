@@ -23,7 +23,7 @@ AnnotationDbi::select(org.Mm.eg.db
                       , columns='ENTREZID', keytype='SYMBOL')
 
 all <- read.csv2("https://www.informatics.jax.org/downloads/reports/MGI_Gene_Model_Coord.rpt", sep="\t", header = TRUE) %>% as.data.frame()
-View(all)
+
 
 #example dataset
 data(geneList); #View(geneList)
@@ -64,7 +64,7 @@ bubble_plot <- function(x, pattern, filelabel, height, width){
 return_orth_genelist <- function(celltype){
     
     # read then maSigPro summary file; concatenate and unique
-    summ_genes <- read.csv2(paste0("/Volumes/Elements_1/AG_Simon/CATS_trimming/masigpro/", celltype,"_summary_genes.txt"), sep=",") ; #View(summ_genes)
+    summ_genes <- read.csv2(paste0("./significant_genes/", celltype,"_summary_genes.txt"), sep=",") ; #View(summ_genes)
     
     # find human orthologous genes
     if(celltype == "HC"){
@@ -147,8 +147,8 @@ categorys <- c("Abnormal coordination",
               "Respiratory Failure"
                )
 View(ck@compareClusterResult)
-pdf("/Volumes/Elements_1/smallRNA_MI/disease_assoc/compared_disgenet.3.pdf", height = 4, width = 8)
-dotplot(xx2, showCategory = categorys, font.size=14) #10) #
+pdf("./results/compared_disgenet.3.pdf", height = 4, width = 8)
+dotplot(xx2, showCategory = categorys, font.size=14) 
 dev.off()
 
 
