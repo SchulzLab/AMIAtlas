@@ -4,17 +4,15 @@ library(data.table)
 library(ggfortify)
 library(dplyr)
 
-exp_dir = "/Volumes/Elements_1/smallRNA_MI/miRBase_counts/"
+exp_dir = "./expression/"
 filename="_mature_normalized_CPM.1.txt"
 
 
 cltyps = c("CM", "EC", "FB", "HC")
 
 pr <- function(ct){
-
-
 	mir_expr <- read.csv2(paste0(exp_dir,
-	                     ct,
+	                    #  ct,
 	                     "/", ct,
 	                     filename),
 	              header = TRUE, sep = "\t")
@@ -43,7 +41,7 @@ pr <- function(ct){
 
 }
 
-# -------------------- plot PCA -----------------------
+# --------------------CM: plot PCA -----------------------
 ct = "CM"
 t_mir_expr <- pr(ct = "CM")
 df <- t_mir_expr[seq(1:24)]
@@ -61,7 +59,7 @@ df <- t_mir_expr[seq(1:24)]
 	  ggplot2::ggtitle(paste0(ct))
 
 	dev.off()
-# -------------------- plot PCA -----------------------
+# --------------------EC: plot PCA -----------------------
 ct = "EC"
 t_mir_expr <- pr(ct = "EC")
 df <- t_mir_expr[seq(1:24)]
@@ -79,7 +77,7 @@ df <- t_mir_expr[seq(1:24)]
 	  ggplot2::ggtitle(paste0(ct))
 
 	dev.off()
-# -------------------- plot PCA -----------------------
+# --------------------FB: plot PCA -----------------------
 
 ct = "FB"
 t_mir_expr <- pr(ct = "FB")
@@ -99,7 +97,7 @@ df <- t_mir_expr[seq(1:24)]
 
 	dev.off()
 
-# -------------------- plot PCA -----------------------
+# --------------------HC: plot PCA -----------------------
 
 ct = "HC"
 t_mir_expr <- pr(ct = "HC")
