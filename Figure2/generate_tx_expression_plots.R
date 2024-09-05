@@ -167,9 +167,9 @@ something <- gene_expr_all %>%
 
 	print(gene_expr_stats)
 
-	plot_tx_expression(gene_expr_stats, gene_name=opt$gname) #"Stk39")
+	plot_tx_expression(gene_expr_stats, gene_name=opt$gname) 
 
 	ggsave(paste0("./results/",opt$outname,"_gene_expression_log2.1.pdf"), 
 			units = "in", width = 7, height = 3)
 
-#"Stk39
+
