@@ -15,9 +15,6 @@ library(tidyverse)
 library(ggpubr)
 library(rstatix)
 
-
-setwd("/projects/amitimeseries/work/smallRNA_AMI/miRBase_counts/")
-paste("Current working directory:", getwd())
 #=================== Masigpro call for differential analysis ================================
 
 
@@ -27,11 +24,7 @@ paste("Current working directory:", getwd())
 
 
 compute_sig <- function(sample_file, cell_type, norm_exp_file){
-
-  # sample_file = "HC/samples_HC_new.txt"
-  # cell_type = "CM"
-  # norm_exp_file = "EC/EC_mature_normalized_CPM.txt"    #"FB/hairpin_normalized_CPM.txt"
-
+  
   samples_FB <- read.table(file.path(sample_file), header=TRUE)
 
   rownames(samples_FB) = c(paste("ctrl", rep(cell_type,4), 1:4, sep="_"),

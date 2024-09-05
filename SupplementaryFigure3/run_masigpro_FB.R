@@ -3,25 +3,11 @@ library(maSigPro)
 library(MASS)
 # ======================= get the normalized counts from DESEQ2 ===========================
 
-normcounts_FB <- read.table(file.path("/projects/amitimeseries/work/salmon_run/data/normalized_genecounts_FB.txt"), header=TRUE)
-
-# ==================== merge with the transcript-gene annotations ======================
-
-tx2gene_mus = read_csv(file.path("/projects/amitimeseries/work/salmon_run/tx2gene.csv"), show_col_types = FALSE)
-# normcounts_FB$txname = rownames(normcounts_FB)
-# merged = merge(x = tx2gene_mus, y = normcounts_FB, all.y = TRUE, by.x = "TXNAME", by.y = "txname")
-
-
-## ========================== build counts dataframe for maSigPro ==========================
-
-# run for each cell-type
-# data_ami = data.frame(); data_ami = merged[,c(-1)]; colnames(data_ami)[1] <- "gen"; rownames(data_ami) = merged[,1]#; View(data_ami)
-# colnames(data_ami)
+normcounts_FB <- read.table(file.path("./expressions/normalized_genecounts_FB.txt"), header=TRUE)
 
 # ================= get the sample information ======================
 
-edesign_FB <- read.table(file.path("samples_FB_diff.txt"), header=TRUE)# head(edesign_HC)
-edesign_FB
+edesign_FB <- read.table(file.path("./configurations/samples_FB_diff.txt"), header=TRUE)# head(edesign_HC)
 
 dis_ami <- make.design.matrix(edesign_FB, degree = 5)#, time.col = 1, repl.col = 2, group.cols = c(3:ncol(edesign_FB))) 
 

@@ -1,22 +1,19 @@
 ### Overlap of differentially expressed genes
 
+maSigPro is used to find the significant genes at each time point over Day 0. This script generates an R datastructure (.rds) that stores the masigpro results. A tab seperated file with the significant genes is generated in the currene directory.
 
-Prerequisites
-
-
-Packages
+### Prerequisites
 
 
+#### Packages
+
+`maSigPro`
 
 
-Data
+#### Data
 
-
-
-
-
-
-maSigPro is used to find the significant genes at each time point over Day 0. This script generates an R datastructure (.rds) that stores the masigpro results.
+(i) tab seperated normalied expression files
+(ii) rds of the masigpro run, generated in the current directory. 
 
 >`Rscript run_masigpro_CM.R`
 
@@ -28,15 +25,11 @@ maSigPro is used to find the significant genes at each time point over Day 0. Th
 
 This is then used by `maSigpro_celltypes.R` to generate the upset plots that show the overlap of DE genes at each timepoint.
 
->`Rscript maSigpro_celltypes.R -c CM`
+>`Rscript maSigpro_celltypes.R -c <CT>`
 
->`Rscript maSigpro_celltypes.R -c EC`
+where CT is either CM, FB, HC or EC.
 
->`Rscript maSigpro_celltypes.R -c FB`
-
->`Rscript maSigpro_celltypes.R -c HC`
-
-This generates plots as in Supplementary figure 3A-D.
+This generates upset plots as in Supplementary figure 3A-D.
 
 -------------
 
@@ -54,10 +47,12 @@ maSigPro is used to find the significant miRNAs across all timepoints. The scrip
 
 #### Data
 
-configuration lists out the column names, after removal of the outliers, 
+(i) configuration lists out the column names that correspond to the sample names ffrom each cell type, after removal of the outliers. This is used for the maSigPro analysis.
+
+(ii) miRNA normalized expression files in the folder `expression/<CT>/<CT>_mature_normalized_CPM.txt`
 
 
-We then run the script as:
+We then run the script for each cell type as:
 
 >`Rscript miR_masigpro_CM.r`
 

@@ -3,12 +3,13 @@ library(maSigPro)
 library(MASS)
 # ============== get the normalized counts from DESEQ2 ==================
 
-normcounts_CM <- read.table(file.path("/projects/amitimeseries/work/salmon_run/data/normalized_genecounts_CM.txt"), header=TRUE)
+normcounts_CM <- read.table(file.path(
+    "./expression/normalized_genecounts_CM.tsv"), header=TRUE)
 
 
 # ============== merge with the transcript-gene annotations ================
 
-# tx2gene_mus = read_csv(file.path("/projects/amitimeseries/work/salmon_run/tx2gene.csv"), show_col_types = FALSE)
+# tx2gene_mus = read_csv(file.path("/work/salmon_run/tx2gene.csv"), show_col_types = FALSE)
 # normcounts_CM$txname = rownames(normcounts_CM)
 # merged = merge(x = tx2gene_mus, y = normcounts_CM, all.y = TRUE, by.x = "TXNAME", by.y = "txname")
 
@@ -21,7 +22,7 @@ normcounts_CM <- read.table(file.path("/projects/amitimeseries/work/salmon_run/d
 
 # ================= get the sample information ======================
 
-edesign_CM <- read.table(file.path("samples_CM_diff.txt"), header=TRUE)# head(edesign_CM)
+edesign_CM <- read.table(file.path("./configurations/samples_CM_diff.txt"), header=TRUE)# head(edesign_CM)
 dis_ami <- make.design.matrix(edesign_CM, degree = 5)#, time.col = 1, repl.col = 2, group.cols = c(3:ncol(edesign_CM)))      # rownames(edesign_ami);# colnames(data_ami)
 
 # ========================= run maSigPro ========================
