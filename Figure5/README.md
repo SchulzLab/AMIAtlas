@@ -2,7 +2,9 @@
 ### Cell type specific miRNAs through comparison of their targets
 
 
-The script `cmoparing_targets.R` generates the lollipop plots for the top 5 cell type specific miRNAs (as in Figure 5B-E). This file requires the spearman correlations of the miRNAs with their targets. Also, to ascertain higher expression of a miRNA in the cell type of interest over others, the script requires the file containing miRNA normalized expressions.
+The script `comparing_targets.R` generates the lollipop plots for the top 5 cell type specific miRNAs (as in Figure 5B-E). This file requires the spearman correlations of the miRNAs with their targets. Also, to ascertain higher expression of a miRNA in the cell type of interest over others, the script requires the file containing miRNA normalized expressions. Run the script as
+
+> Rscript comparing_targets.R
 
 
 ### Prerequisites
