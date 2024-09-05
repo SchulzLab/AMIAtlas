@@ -4,6 +4,22 @@
 In order to check expression dynamics of known cell-type specific miRNAs compared between cell types (**figures** 3A,B,C), we use the script `generate_miRNA_expression_plots.R` as shown below:
 
 
+### Prerequisites
+
+
+
+#### Packages
+
+`optparse` for parsing options; `tidyr` for data manipulation and `ggplot2` for plotting.
+
+
+#### Data
+
+miRNA expression files provided in the folder `expression/<CT>_mature_normalized_CPM.1.txt`. These are the CPM normalized miRNA expression, where CT stands for either CM, FB, EC or HC
+
+
+
+
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-208a-5p -g miR-208a-5p -o mmu-miR-208a-5p`
 
 >`Rscript generate_miRNA_expression_plots.R -e mmu-miR-208a-3p -g miR-208a-3p -o mmu-miR-208a-3p`

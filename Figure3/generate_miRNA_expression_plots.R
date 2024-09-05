@@ -11,10 +11,10 @@ library("optparse")
  
 option_list = list(
 	make_option(c("-e", "--ens"), type="character", default=NULL, 
-              help="ensembl gene id", metavar="character"),
+              help="full miRNA miRbase name with mmu", metavar="character"),
 
-	make_option(c("-g", "--gname"), type="character", default=NULL, 
-              help="gene name (as appears in the title of the plot)", metavar="character"),
+	make_option(c("-g", "--mirname"), type="character", default=NULL, 
+              help="miRNA name (as appears in the title of the plot)", metavar="character"),
 
 	make_option(c("-o", "--outname"), type="character", default="out.txt", 
               help="name appended to the output file name", metavar="character")
@@ -22,8 +22,6 @@ option_list = list(
  
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
-
-
 
 if (is.null(opt$ens)){
   print_help(opt_parser)
@@ -35,8 +33,6 @@ if (is.null(opt$ens)){
 	stop("name appended to the output file name, preferable the gene name / symbol", call.=FALSE)
 }
 
-
-
 suppressPackageStartupMessages(library(dplyr, tidyverse))
 library(tidyr)
 library(ggplot2)
@@ -45,8 +41,6 @@ library(hrbrthemes)
 library(stringr)
 library(gridExtra)
 library(cowplot)
-
-
 
 plot_tx_expression <- function(mtr_stats_wider_all, gene_name){
 
@@ -83,11 +77,9 @@ plot_tx_expression <- function(mtr_stats_wider_all, gene_name){
 		guides(color=guide_legend(nrow=1,byrow=TRUE))
 
     print(p)
-
-	
 }
 
-dir = "/projects/amitimeseries/work/smallRNA_AMI/miRBase_counts/"
+dir = "./expression/"
 filename="_mature_normalized_CPM.1.txt"
 
 cltyps = c("CM", "EC", "FB", "HC")
@@ -146,7 +138,6 @@ for (ct in head(cltyps, 4)) {
 		print("reordered----------------")
 		print(head(gene_expr))
 
-
 	}
 
     print(colnames(gene_expr))
@@ -161,9 +152,6 @@ for (ct in head(cltyps, 4)) {
 	# append to dataframe to take in other celltypes
 	gene_expr_all <- bind_rows(gene_expr_all, gene_expr)
 	print(head(gene_expr_all))
-
-}
-
 
 something <- gene_expr_all %>% 
 	    				pivot_longer(!c("X", "ct"), names_to = "timepoint", values_to = "expr") %>% 
@@ -187,6 +175,6 @@ something <- gene_expr_all %>%
 	print(gene_expr_stats)
 
 	plot_tx_expression(gene_expr_stats, gene_name=opt$gname) #"Stk39")
-	ggsave(paste0(opt$outname,"_TDMD_tx_analysis_log2.1.pdf"), 
+	ggsave(paste0(opt$outname,"_miR_expression_log2.1.pdf"), 
             units = "in", width = 4, height = 2)
 
