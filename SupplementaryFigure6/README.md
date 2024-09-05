@@ -8,7 +8,7 @@ Finally, to get the GO enriched functions for the ceRNA genes using all cell typ
 
 >`Rscript ceRNA_functional_barplots.R`
 
-which generates the bar plots as in **supplementary figure 6 B.**
+which generates the bar plots as in **supplementary figure 6 B.** Also, this creates the GO functions saved in Supplementary table 4.
 
 ### Prerequisites
 

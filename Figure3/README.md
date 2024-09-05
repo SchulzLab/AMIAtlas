@@ -38,3 +38,17 @@ miRNA expression files provided in the folder `expression/<CT>_mature_normalized
 ### Generate miRNA expression heatmaps and functional enrichment of the expression clusters
 
 The script `functional_enrichment_select_mirnas.R` generates the heatmaps of the normalized expression, for each cell type, generates clusters based on hierarchical clustering, and performs GO functional enrichment of the target genes for all miRNAs in cluster (**figures** 3D-G). The functions for each cell type and for each miRNA cluster are written in individual text files.
+
+
+### Prerequisites
+
+
+
+#### Packages
+
+
+
+#### Data
+
+miRNA spearman correlations, for each celltype: provided in the folder correlations/<CT>_spearman_alltimepoints_anno.tsv. CT stands for either CM, FB, EC or HC.
+

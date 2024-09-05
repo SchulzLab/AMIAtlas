@@ -89,9 +89,10 @@ categorys <- c("collagen-containing extracellular matrix"
                # ,"cell leading edge"
                # ,"membrane raft"
                 )
-c <- mutate(edo_cc1, qscore = -log(p.adjust, base=10)) %>% 
-    barplot(x="qscore", width = 0.3, showCategory = categorys) 
-ggsave("GOCC_enrichfunctions_barplots_plot.pdf"
-       # , width=8
-       # , height = 1.8
-       )
+c <- mutate(edo_cc1, qscore = -log(p.adjust, base=10)) 
+barplot(c, x="qscore", width = 0.3, showCategory = categorys) 
+ggsave("GOCC_enrichfunctions_barplots_plot.pdf", width=8, height = 2.8)
+
+# save as table
+write.table(rbind(as.data.frame(a), as.data.frame(b), as.data.frame(c)),
+        paste0("GO_func_enrich_results_ceRNAs.tsv"), sep = "\t", quote=FALSE, row.names=FALSE)
