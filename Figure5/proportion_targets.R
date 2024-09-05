@@ -1,7 +1,4 @@
-# this is the script for figure 2 where we find the overlap of miRNA target 
-# genes, from each miRNA cluster,  with the 
-# STEM clusting output of various gene cluster profiles, for each cell type
-# loading all functions
+
 loadLibraries <- function() {
   library(maSigPro)
   suppressMessages(library(reshape))
@@ -121,7 +118,7 @@ get_mircluster_targets <- function(mir_list, celltype, corr_coeff){
 
   cat("get gene targets of ", mir_list, "\n")
 
-  dir = "/projects/amitimeseries/work/smallRNA_AMI/miRNA_mRNA_corr/v2/"
+  dir = "./correlations/"
 
 	#read the correlations
   file = paste0(dir, celltype, "_spearman_alltimepoints_anno.tsv")
@@ -137,39 +134,6 @@ get_mircluster_targets <- function(mir_list, celltype, corr_coeff){
                       dplyr::filter(mature %in% mir_list) #== "mmu-let-7a-2-3p")
 
   return(data_filter)	
-
-}
-
-# read the profiles of the genes from the STEM output
-read_STEM_profiles <- function(celltype){
-
-	cat("within function: read_STEM_profiles\n")
-	dir = "/projects/amitimeseries/work/smallRNA_AMI/AMI_STEM_analysis/gene_clustering_analysis/"
-
-	data<-read.csv2(file=(paste0(dir, celltype,"_expression_clustering_profile.csv"))
-					, sep=","
-                    ,header = TRUE) 
-	print(dim(data)) # print(names(data));
-	
-
-	#how many unique profiles
-	uniq_profiles <- data %>% select(profile) %>% unique()
-	
-	print(uniq_profiles$profile);print(length(uniq_profiles$profile))
-
-
-	#compute for each cluster
-	gene_profiles = list()
-	
-	for(x in 1:length(uniq_profiles$profile)){
-		first_profile = data %>% filter(profile == uniq_profiles$profile[x])
-		print(dim(first_profile))
-
-		gene_profiles[[x]] <- first_profile$genes
-
-	}	
-
-	return(gene_profiles)
 
 }
 
@@ -460,7 +424,7 @@ loadLibraries()
 # for (corr_coeff in seq(-0.4,-0.9, -0.1)){
 # 	df <- get_mir_clusters(celltype="CM", k=5, corr_coeff)
 # 	# read the gene clusters from STEM output
-# 	# gene_profiles <- read_STEM_profiles(celltype="CM")
+# 	
 
 # 	#generate the gene clusters from HCL on masigpro results
 # 	gene_profiles <- read_masigpro_results(celltype="CM", k=10)
@@ -480,7 +444,7 @@ loadLibraries()
 
 # for (corr_coeff in seq(-0.4,-0.9, -0.1)){
 # 	df <- get_mir_clusters(celltype="FB", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="FB")
+# 	
 # 	gene_profiles <- read_masigpro_results(celltype="FB", k=10)
 # 	dataf <- find_overlap(df, gene_profiles, celltype="FB")
 # 	plot_heatmap(dataf, celltype="FB", width = 8.24, height = 5.30, corr_coeff, k=6)			#12
@@ -488,7 +452,7 @@ loadLibraries()
 
 # for (corr_coeff in seq(-0.4,-0.9, -0.1)){
 # 	df <- get_mir_clusters(celltype="HC", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="HC")
+# 	
 # 	gene_profiles <- read_masigpro_results(celltype="HC", k=10)
 # 	dataf <- find_overlap(df, gene_profiles, celltype="HC")
 # 	plot_heatmap(dataf, celltype="HC", width = 8.24, height = 5.30, corr_coeff, k=6)
@@ -669,7 +633,7 @@ find_overlap_goids <- function(df, gene_profiles, celltype){
 
 # for (corr_coeff in seq(-0.4,-0.9, -0.1)){
 # 	df <- get_mir_clusters(celltype="EC", k=5, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="EC")
+# 	
 # 	gene_profiles <- read_masigpro_results(celltype="EC", k=10)
 # 	dataf <- find_overlap(df, gene_profiles, celltype="EC")
 # 	plot_heatmap(dataf, celltype=".functions.EC", width = 8.24, height = 5.30, corr_coeff, k=5)			#10
@@ -677,7 +641,7 @@ find_overlap_goids <- function(df, gene_profiles, celltype){
 
 # for (corr_coeff in seq(-0.4,-0.9, -0.1)){
 # 	df <- get_mir_clusters(celltype="FB", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="FB")
+# 	
 # 	gene_profiles <- read_masigpro_results(celltype="FB", k=10)
 # 	dataf <- find_overlap(df, gene_profiles, celltype="FB")
 # 	plot_heatmap(dataf, celltype=".functions.FB", width = 8.24, height = 5.30, corr_coeff, k=6)			#12
@@ -685,7 +649,7 @@ find_overlap_goids <- function(df, gene_profiles, celltype){
 
 # for (corr_coeff in seq(-0.4,-0.9, -0.1)){
 # 	df <- get_mir_clusters(celltype="HC", k=6, corr_coeff)
-# 	# gene_profiles <- read_STEM_profiles(celltype="HC")
+# 	
 # 	gene_profiles <- read_masigpro_results(celltype="HC", k=10)
 # 	dataf <- find_overlap(df, gene_profiles, celltype="HC")
 # 	plot_heatmap(dataf, celltype="functions.HC", width = 8.24, height = 5.30, corr_coeff, k=6)
@@ -746,35 +710,35 @@ for (mir in mir_list) {
 }
 
 
-# mir_list = c("mmu-miR-208a-3p", 
-#             "mmu-miR-3470b",
-#             "mmu-miR-9-3p",
-#             "mmu-miR-706",
-#             "mmu-miR-466i-5p")
-# for (mir in mir_list) {
-#   celltype="EC"
-#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
-# }
+mir_list = c("mmu-miR-208a-3p", 
+            "mmu-miR-3470b",
+            "mmu-miR-9-3p",
+            "mmu-miR-706",
+            "mmu-miR-466i-5p")
+for (mir in mir_list) {
+  celltype="EC"
+  functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
+}
 
 
-# mir_list = c("mmu-miR-344d-3p",
-#             "mmu-miR-6952-3p", 
-#              "mmu-miR-6240", 
-#             "mmu-miR-7689-3p",
-#             "mmu-miR-200c-3p"
-#  )
-# for (mir in mir_list) {
-#   celltype="FB"
-#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
-# }
+mir_list = c("mmu-miR-344d-3p",
+            "mmu-miR-6952-3p", 
+             "mmu-miR-6240", 
+            "mmu-miR-7689-3p",
+            "mmu-miR-200c-3p"
+ )
+for (mir in mir_list) {
+  celltype="FB"
+  functions_permiRNA(miR=mir, celltype=celltype, coef=-0.4)
+}
 
-# mir_list = c("mmu-miR-466g",
-#              "mmu-miR-466d-3p",
-#               "mmu-miR-669f-3p", 
-#               "mmu-miR-466i-3p", 
-#               "mmu-miR-297b-5p", 
-#               "mmu-miR-744-3p")
-# for (mir in mir_list) {
-#   celltype="HC"
-#   functions_permiRNA(miR=mir, celltype=celltype, coef=-0.7)
-# }
+mir_list = c("mmu-miR-466g",
+             "mmu-miR-466d-3p",
+              "mmu-miR-669f-3p", 
+              "mmu-miR-466i-3p", 
+              "mmu-miR-297b-5p", 
+              "mmu-miR-744-3p")
+for (mir in mir_list) {
+  celltype="HC"
+  functions_permiRNA(miR=mir, celltype=celltype, coef=-0.7)
+}
