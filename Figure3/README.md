@@ -37,10 +37,15 @@ miRNA expression files provided in the folder `expression/<CT>_mature_normalized
 
 ### Generate miRNA expression heatmaps and functional enrichment of the expression clusters
 
-The script `functional_enrichment_select_mirnas.R` generates the heatmaps of the normalized expression, for each cell type, generates clusters based on hierarchical clustering, and performs GO functional enrichment of the target genes for all miRNAs in cluster (**figures** 3D-G). The functions for each cell type and for each miRNA cluster are written in individual text files.
+The script `functional_enrichment_select_mirnas.R` generates the heatmaps of the normalized expression, for each cell type, generates clusters based on hierarchical clustering, and performs GO functional enrichment of the target genes for all miRNAs in cluster (**figures** 3D-G). The functions for each cell type and for each miRNA cluster are written in individual text files. The aggregated files are provided as **Supplementary table S1**. The arguments c referes to the celltype and k referes to the number of clusters. k mentioned in the following command refers to as used in the manuscript 
 
+>`Rscript functional_enrichment_select_mirnas.R -c CM -k 7`
 
->`Rscript functional_enrichment_select_mirnas.R -c HC -k 7`
+>`Rscript functional_enrichment_select_mirnas.R -c EC -k 5`
+
+>`Rscript functional_enrichment_select_mirnas.R -c HC -k 6`
+
+>`Rscript functional_enrichment_select_mirnas.R -c FB -k 6`
 
 
 ### Prerequisites
@@ -53,5 +58,7 @@ The script `functional_enrichment_select_mirnas.R` generates the heatmaps of the
 
 #### Data
 
-miRNA spearman correlations, for each celltype: provided in the folder correlations/<CT>_spearman_alltimepoints_anno.tsv. CT stands for either CM, FB, EC or HC.
+(i) miRNA spearman correlations, for each celltype: provided in the folder (in zenodo) `correlations/<CT>_spearman_alltimepoints_anno.tsv`. where CT stands for either CM, FB, EC or HC.
+
+(ii) miRNA expression files provided in the folder `expression/<CT>_mature_normalized_CPM.1.txt`. These are the CPM normalized miRNA expression, where CT stands for either CM, FB, EC or HC.
 
