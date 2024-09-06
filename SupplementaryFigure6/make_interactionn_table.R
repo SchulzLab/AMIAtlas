@@ -1,18 +1,15 @@
-setwd("~/spongeR_run/")
 
-# conserved_interactions_mmu <- read.delim("~/spongeR_run/targetscan_interactions_mmu.txt")#larger set including non-conserved 
-conserved_interactions_mmu <- read.delim("~/spongeR_run/conserved_interactions_mmu.txt")
+
+ 
+conserved_interactions_mmu <- read.delim("./interactions/conserved_interactions_mmu.txt")
 dim(conserved_interactions_mmu)
-#attach the MIMAT ids to these
 
 write.table(unique(conserved_interactions_mmu$miRNA), file="conserved_mirnas_in_interaction.tsv", 
             sep = "\t", row.names = FALSE,
             quote = FALSE)
-
-miRNA_conversion = read.csv("~/Downloads/miRCarta - miRBase identifier conversion interaction.csv", quote="")
+#attach the MIMAT ids to these
+miRNA_conversion = read.csv("./annotations/miRCarta - miRBase identifier conversion interaction.csv", quote="")
 dim(miRNA_conversion)
-# miRNA_conversion = read.csv("~/Downloads/miRCarta - miRBase identifier conversion.csv", quote="")#larger set
-
 
 interactions_mmu = merge(x = miRNA_conversion, y = conserved_interactions_mmu, 
                                by.x = "Query",                # miRNA expression table
@@ -41,5 +38,5 @@ library(SPONGE)
 View(mir_expr)
 dim(mir_expr)
 length(colnames(mir_expr))
-class((targetscan_symbol) )
-View(targetscan_symbol)     # 12238  x 348
+# class((targetscan_symbol) )
+# View(targetscan_symbol)     # 12238  x 348
