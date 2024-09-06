@@ -7,7 +7,6 @@ library(dplyr)
 exp_dir = "./expression/"
 filename="_mature_normalized_CPM.1.txt"
 
-
 cltyps = c("CM", "EC", "FB", "HC")
 
 pr <- function(ct){
@@ -22,7 +21,7 @@ pr <- function(ct){
 
 	rownames(mir_expr) <- mir_expr$miRNA
 	mir_expr <- mir_expr[, -1]
-	#print(head(mir_expr))
+
 	mir_expr <- as.data.frame(sapply(mir_expr, as.numeric))
 
 	t_mir_expr <- transpose(mir_expr)
@@ -35,8 +34,6 @@ pr <- function(ct){
 	t_mir_expr$replicate=factor(rep(c("r1","r2", "r3","r4"),6))
 	print(str(t_mir_expr))
 
-	# df <- t_mir_expr[seq(1:24)]			#iris[c(1,2,3,4)]
-
 	return(t_mir_expr)
 
 }
@@ -45,8 +42,6 @@ pr <- function(ct){
 ct = "CM"
 t_mir_expr <- pr(ct = "CM")
 df <- t_mir_expr[seq(1:24)]
-
-# plotpca <- function(){
 
 	pdf(paste0("PCA_smallRNA_",ct,".pdf"), 7,7)
 
@@ -63,8 +58,6 @@ df <- t_mir_expr[seq(1:24)]
 ct = "EC"
 t_mir_expr <- pr(ct = "EC")
 df <- t_mir_expr[seq(1:24)]
-
-# plotpca <- function(){
 
 	pdf(paste0("PCA_smallRNA_",ct,".pdf"), 7,7)
 
@@ -83,8 +76,6 @@ ct = "FB"
 t_mir_expr <- pr(ct = "FB")
 df <- t_mir_expr[seq(1:24)]
 
-# plotpca <- function(){
-
 	pdf(paste0("PCA_smallRNA_",ct,".pdf"), 7,7)
 
 	theme_set(theme_minimal())
@@ -102,8 +93,6 @@ df <- t_mir_expr[seq(1:24)]
 ct = "HC"
 t_mir_expr <- pr(ct = "HC")
 df <- t_mir_expr[seq(1:24)]
-
-# plotpca <- function(){
 
 	pdf(paste0("PCA_smallRNA_",ct,".pdf"), 7,7)
 
