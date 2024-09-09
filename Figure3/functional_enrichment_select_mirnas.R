@@ -12,10 +12,36 @@ suppressPackageStartupMessages(library(enrichplot))
 suppressPackageStartupMessages(library(reshape2))
 suppressPackageStartupMessages(library(matrixStats))
 suppressPackageStartupMessages(library(ReactomePA))
-# =========================== set working directory ====================
+# =========================== set the options ====================
 
-setwd("/Volumes/Elements_1/smallRNA_MI/miRNA_mRNA_corr/functional_enrichment/")
-getwd()
+library("optparse")
+ 
+option_list = list(
+    make_option(c("-c", "--ct"), type="character", default=NULL, 
+              help="cell type, CM, EC, FB or HC", metavar="character"),
+
+    make_option(c("-k", "--klusters"), type="character", default=NULL, 
+              help="number of clusters you are interested in", metavar="character")     #,
+
+    # make_option(c("-r", "--corr"), type="character", default=NULL, 
+    #         help="correlation cutoff, default: -0.4", metavar="character")
+
+);
+
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
+
+if (is.null(opt$ct)){
+  print_help(opt_parser)
+  stop("provide cell type, CM, EC, FB or HC", call.=FALSE)
+} else if (is.null(opt$k)){
+  print_help(opt_parser)
+  stop("provide number of clusters you are interested in", call.=FALSE)
+}
+#  else if (is.null(opt$corr)){
+#   print_help(opt_parser)
+#   stop("provide correlation cutoff", call.=FALSE)
+# }
 
 # =============================== functions ============================ #
 get_targtes <- function(
@@ -25,15 +51,10 @@ get_targtes <- function(
         mir){
     
     corr_table_sel = corr_table %>% 
-        filter(tmp.p.value < p_val_cutoff, tmp.estimate < corr_cutoff , mature == mir) #%>% head()
-    
-    # print(corr_table %>% filter(tmp.p.value < p_val_cutoff, tmp.estimate < corr_cutoff , mature == mir) %>% head())
-    # print(nrow(corr_table_sel))
-    # plot(corr_table_sel$tmp.estimate, corr_table_sel$tmp.p.value, 
-    # xlab = "Spearman Corr Coefficient", ylab = "p value")
+        filter(tmp.p.value < p_val_cutoff, tmp.estimate < corr_cutoff , mature == mir)     
+
     return(corr_table_sel$gene)
 }
-
 
 # generate the table of functions
 func_enrichment_targets_clusterProfiler_table <- function(
@@ -43,13 +64,12 @@ func_enrichment_targets_clusterProfiler_table <- function(
         mirnas,
         cluster){
     
-    
     print("here in function <func_enrichment_targets_clusterProfiler_table>")
     
     #read corr coeff and select targets 
     print(paste0(directory, celltype,"_spearman_alltimepoints_anno.tsv"))
     corr_df = read.csv(paste0(directory, celltype,"_spearman_alltimepoints_anno.tsv"), sep="\t") # output FROM spearman.R #glimpse(corr_df)
-    print(head(corr_df, 3))
+    print(head(corr_df, 3))     # check to see if read the correct file
     
     i=1
     merge_all =  data.frame()
@@ -60,19 +80,12 @@ func_enrichment_targets_clusterProfiler_table <- function(
         sel_target_genes_3p = get_targtes(corr_table= corr_df, 
                                           corr_cutoff = corr_cutoff, 
                                           p_val_cutoff = 0.05, 
-                                          mir = c(paste0(mir_arg, ""))) #c(paste0(mir_arg, "-3p")))
-        
-        # sel_target_genes_5p = get_targtes(corr_table= corr_df, 
-        #                                   corr_cutoff = corr_cutoff, 
-        #                                   p_val_cutoff = 0.05, 
-        #                                   mir = c(paste0(mir_arg, "-5p")))
+                                          mir = c(paste0(mir_arg, ""))) 
         
         eg3 = bitr(str_to_title(sel_target_genes_3p), fromType="SYMBOL", toType="ENTREZID", OrgDb="org.Mm.eg.db"); 
         
-        print(eg3)  
-        
         bp2 = data.frame()
-        # ======================= GO functions ===========================
+        # ======================= Compute GO functional enrichment ===========================
         ego3 <- enrichGO(gene = eg3$ENTREZID,
                          OrgDb         = org.Mm.eg.db,
                          keyType       = 'ENTREZID',
@@ -88,36 +101,25 @@ func_enrichment_targets_clusterProfiler_table <- function(
         }else{
             ck = NULL
         }
-        print("---------------------- GO Function: 3p arm targets  ------------------------")
-        
-        # write.table(ck, paste0("tabs/", celltype, "_",mir_arg,"_clusterProfiler_GO_func_enrich_results_3p.1.tsv"), sep = "\t", quote=FALSE, row.names=FALSE)
-        
+        print("---------------------- Enriching target genes with GO Functions ------------------------")
+              
         if(!is.null(ck)){
             
             if(nrow(ck) > 0){
                 
                 bp <- pairwise_termsim(ck)
                 # bp2 <- simplify(bp, cutoff=0.3, by="p.adjust", select_fun=min)
-                # write.table(bp2, paste0("tabs/", celltype, "_",mir_arg,
-                #                   "_clusterProfiler_GO_func_enrich_results_3p.cutoff0.3.tsv"), 
-                #             sep = "\t", quote=FALSE, row.names=FALSE)  
+                  
                 
                 # bp3 <- simplify(bp, cutoff=0.8, by="p.adjust", select_fun=min)
-                # write.table(bp3, paste0("tabs/", celltype, "_",mir_arg,
-                #                   "_clusterProfiler_GO_func_enrich_results_3p.cutoff0.8.tsv"), 
-                #             sep = "\t", quote=FALSE, row.names=FALSE)
                 
-                bp2 <- simplify(bp, cutoff=0.1, by="p.adjust", select_fun=min)
-                # write.table(bp4, paste0("tabs/", celltype, "_",mir_arg,
-                #                   "_clusterProfiler_GO_func_enrich_results_3p.cutoff0.2.tsv"), 
-                #             sep = "\t", quote=FALSE, row.names=FALSE)   
+                
+                bp2 <- simplify(bp, cutoff=0.1, by="p.adjust", select_fun=min)  
                 
                 
             }
         }
         
-        
-        # ======================= KEGG Pathways ===========================
         kk3 <- enrichKEGG(gene = eg3$ENTREZID,
                           organism     = 'mmu',
                           pvalueCutoff = 0.05)
@@ -126,8 +128,8 @@ func_enrichment_targets_clusterProfiler_table <- function(
         }else{
             ck <- NULL
         }
-        print("---------------------- KEGG PATHWAY: 3p arm targets  ------------------------")
-        # print(head(kk3, 3))
+        print("---------------------- Enriching target genes with KEGG PATHWAYs  ------------------------")
+        
         if(!is.null(ck)){
             if(nrow(ck)>0){
                 
@@ -137,18 +139,17 @@ func_enrichment_targets_clusterProfiler_table <- function(
             }
         }
         
-        print("---------------------- WIKI Pathways : 3p arm targets ------------------------")
-        x <- enrichWP(gene = eg3$ENTREZID, organism = "Mus musculus") 
-        if(nrow(as.data.frame(x)) > 0) {     #!is.null(x)){
-            xr <- as.data.frame(setReadable(x, OrgDb = "org.Mm.eg.db", keyType="ENTREZID"))
-            xr$ONTOLOGY = "WP"
-            # print(head(xr))   
-            # write.table(xr, paste0("tabs/", celltype, "_",mir_arg,"_clusterProfiler_WP_func_enrich_results_3p.2.tsv"), sep = "\t", quote=FALSE, row.names=FALSE)
-            bp2 <- bind_rows(as.data.frame(bp2), as.data.frame(xr))
-        }
+        print("---------------------- Enriching target genes with WIKI Pathways ------------------------")
+        # x <- enrichWP(gene = eg3$ENTREZID, organism = "Mus musculus") 
+        # if(nrow(as.data.frame(x)) > 0) {     #!is.null(x)){
+        #     xr <- as.data.frame(setReadable(x, OrgDb = "org.Mm.eg.db", keyType="ENTREZID"))
+        #     xr$ONTOLOGY = "WP"
+        #     # print(head(xr))   
+        #     # write.table(xr, paste0("tabs/", celltype, "_",mir_arg,"_clusterProfiler_WP_func_enrich_results_3p.2.tsv"), sep = "\t", quote=FALSE, row.names=FALSE)
+        #     bp2 <- bind_rows(as.data.frame(bp2), as.data.frame(xr))
+        # }        
         
-        
-        print("---------------------- REACTOME PATHWAY: 3p arm targets ------------------------")
+        print("---------------------- Enriching target genes with REACTOME PATHWAYs ------------------------")
         x <- enrichPathway(gene=eg3$ENTREZID, pvalueCutoff = 0.05, readable=TRUE, organism = "mouse")
         if(nrow(as.data.frame(x)) > 0){ #!is.null(x)){
             #       
@@ -158,23 +159,23 @@ func_enrichment_targets_clusterProfiler_table <- function(
             # write.table(x, paste0("tabs/", celltype, "_",mir_arg,"_clusterProfiler_RP_func_enrich_results_3p.2.tsv"), sep = "\t", quote=FALSE, row.names=FALSE)
             bp2 <- bind_rows(as.data.frame(bp2), x)
             
-        }
-        
-        print(bp2)
-        #write.table(bp2, paste0("tabs1/clusterProfiler/",celltype,"/functions_v2/", celltype, "_",mir_arg,"_clusterProfiler_ALL_func_enrich_results_3p.2.tsv"), sep = "\t", quote=FALSE, row.names=FALSE)    
+        }        
         
         i = i+1
         merge_all = bind_rows(merge_all, as.data.frame(bp2))
     }
     
     #create directory structure to store results
-    dir.create(file.path(getwd(), "tabs1/"))
-    dir.create(file.path(getwd(), "tabs1/clusterProfiler"))
-    dir.create(file.path(getwd(), paste0("tabs1/clusterProfiler/", celltype)))
-    dir.create(file.path(getwd(), paste0("tabs1/clusterProfiler/",celltype,"/functions_v2")))
+    dir.create("results/")
+
     merge_all = merge_all[order(merge_all$p.adjust, decreasing = FALSE), ]  # order by adjusted p.value
+    merge_all$CLUSTER = paste0("m",opt$ct,cluster)                          # write the cluster name
     
-    write.table(merge_all, paste0("tabs1/clusterProfiler/",celltype,"/functions_v2/", celltype, "_Cluster",cluster,"_clusterProfiler_ALL_func_enrich_results_",corr_cutoff,".4.tsv"), append = FALSE, sep = "\t", quote=FALSE, row.names=FALSE)
+    write.table(merge_all, 
+                paste0(
+                    "./results/", 
+                    celltype, "_Cluster",cluster,"_func_enrich_",corr_cutoff,".tsv"), 
+                    append = FALSE, sep = "\t", quote=FALSE, row.names=FALSE)
 }
 
 
@@ -270,7 +271,7 @@ data.mir.CMn = data.mir.CM[rowSums(data.mir.CM) > 10, ]
 cat("Dimensions before setting threshold: ", dim(data.mir.CM), "\n")
 cat("Dimensions after setting threshold: ", dim(data.mir.CMn), "\n")
 
-# running maSigpro
+# running maSigpro for significance analysis
 fitCM <-
     p.vector(
         data = data.mir.CMn,
@@ -280,14 +281,7 @@ fitCM <-
         min.obs = 20
     )
 
-fitCM$i # returns the number of significant genes
-paste("alpha", head(fitCM$alfa))# gives p-value at the Q false discovery control level
-head(fitCM$SELEC) # is a matrix with the significant genes and their expression values
-head(fitCM$p.vector) # vector containing the computed p-values
-head(fitCM$p.adjusted) # names(fitCM)
-
-
-
+# recompute miRNA clusters
 res <- pheatmap(
     fitCM$SELEC,
     scale = "row",
@@ -309,16 +303,12 @@ for (x in 1:k) {
     
     if(x>5){
       func_enrichment_targets_clusterProfiler_table(
-        directory = "/Volumes/Elements_1/smallRNA_MI/miRNA_mRNA_corr/v2/",
+        directory = "./correlations/",
         celltype = celltype,
         corr_cutoff = -0.4,
         mirnas = rowname_vec,   # mirnas$x
         cluster  = x
       )
     }
-    #make the bar plot with (indices )
+    
 }
-
-
-# ----------------- lets try a bar plot -----------------#
-
