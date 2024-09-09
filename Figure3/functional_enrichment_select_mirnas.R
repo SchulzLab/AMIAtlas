@@ -109,11 +109,7 @@ func_enrichment_targets_clusterProfiler_table <- function(
                 
                 bp <- pairwise_termsim(ck)
                 # bp2 <- simplify(bp, cutoff=0.3, by="p.adjust", select_fun=min)
-                  
-                
                 # bp3 <- simplify(bp, cutoff=0.8, by="p.adjust", select_fun=min)
-                
-                
                 bp2 <- simplify(bp, cutoff=0.1, by="p.adjust", select_fun=min)  
                 
                 
