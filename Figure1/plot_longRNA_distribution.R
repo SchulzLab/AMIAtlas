@@ -11,28 +11,6 @@ loadLibraries <-function() {
     
 }
 
-# -------------- example data ----------------------
-
-count.data <- data.frame(
-    class = c("1st", "2nd", "3rd", "Crew"),
-    n = c(325, 285, 706, 885),
-    prop = c(14.8, 12.9, 32.1, 40.2)
-)
-count.data
-# Add label position
-count.data <- count.data %>%
-    arrange(desc(class)) %>%
-    mutate(lab.ypos = cumsum(prop) - 0.5*prop)
-count.data
-
-mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")
-ggplot(count.data, aes(x = "", y = prop, fill = class)) +
-    geom_bar(width = 1, stat = "identity", color = "white") +
-    coord_polar("y", start = 0)+
-    geom_text(aes(y = lab.ypos, label = prop), color = "white")+
-    scale_fill_manual(values = mycols) +
-    theme_void()
-#-------------------------------------------------------#
 
 plot_longRNA_disrtibution <- function(longRNA_FB, title, ct) {
     pc <- longRNA_FB %>% filter(biotype == "PC") %>% select(median) %>% as.list()
@@ -77,48 +55,46 @@ plot_longRNA_disrtibution <- function(longRNA_FB, title, ct) {
         color = "black", 
         nudge_x = 0.0, 
         nudge_y = 5) +
-        scale_colour_brewer(hcl.colors(5,"ArmyRose"))+# colorBlindBlack8) +
+        scale_colour_brewer(hcl.colors(5,"ArmyRose"))+      # colorBlindBlack8) +
         ggtitle(title) +
         theme_void(base_size = 14,
                    base_family = "Helvetica")
     
-    print(p)
+    print(p)        # see the plot in rstudio editor
     return(p)    
-    # ggsave(paste0("~/Downloads/AMI_MANUSCRIPT/SCIENTIFIC_DATA/Scripts/Figure1/",
-    #        ct,"_longRNA_distribution.pdf"))
+    
 }
 
 hcl.colors(5,"Green-Orange")
 loadLibraries()
-longRNA_FB1<- read_xlsx("~/Downloads/ncRNA_quantification_logs.xlsx", 
-                       sheet = "FB", range = "A62:C98")
+longRNA_FB1<- read_xlsx("./ncRNA_quantification_logs.xlsx", 
+                       sheet = "FB", range = "A1:C37")
 a <- plot_longRNA_disrtibution(longRNA_FB1, title="Fibroblast", ct="FB")
-longRNA_EC<- read_xlsx("~/Downloads/ncRNA_quantification_logs.xlsx", 
-                        sheet = "EC", range = "B38:D74")
+longRNA_EC<- read_xlsx("./ncRNA_quantification_logs.xlsx", 
+                        sheet = "EC", range = "A1:C37")
 b <- plot_longRNA_disrtibution(longRNA_EC, title="Endothelial cells", ct="EC")
 
-longRNA_CM<- read_xlsx("~/Downloads/ncRNA_quantification_logs.xlsx", 
-                       sheet = "CM_new", range = "A38:D74")
+longRNA_CM<- read_xlsx("./ncRNA_quantification_logs.xlsx", 
+                       sheet = "CM_new", range = "A1:C37")
 c <- plot_longRNA_disrtibution(longRNA_CM, title="Cardiomyodytes", ct="CM")
 
-longRNA_HC <- read_xlsx("~/Downloads/ncRNA_quantification_logs.xlsx", 
-                       sheet = "HC_new", range = "A39:D75")
+longRNA_HC <- read_xlsx("./ncRNA_quantification_logs.xlsx", 
+                       sheet = "HC_new", range = "A1:C37")
 d <- plot_longRNA_disrtibution(longRNA_HC, title="Hematopoietic cells", ct="HC")
 
 
 
 ggpubr::ggarrange(
-    a, b, c, d, #align='hv',
-    # labels = c("b", "c", "d", "e"),
+    a, b, c, d, #align='hv', # labels = c("b", "c", "d", "e"),    
     common.legend = TRUE, legend = "right",
     ncol = 4 , nrow = 1
 )
 
 ggsave(
-    filename = paste0(paste0("~/Downloads/AMI_MANUSCRIPT/SCIENTIFIC_DATA/Scripts/Figure1/",
+    filename = paste0(paste0("./",
                              "AMI_longRNA_distribution.1.pdf")),
     # plot = last_plot(),  
-    width=9.38, height=3.96  # width=8, height=7.4
+    width=9.38, height=3.96
 )
 
 
