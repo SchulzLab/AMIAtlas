@@ -19,7 +19,7 @@ FB_miRNA_expression_alltimepoints <- read.delim("FB_miRNAExpression.txt", quote=
 EC_miRNA_expression_alltimepoints <- read.delim("EC_miRNAExpression.txt", quote="")
 HC_miRNA_expression_alltimepoints <- read.delim("HC_miRNAExpression.txt", quote="")
 
-mirid_converted <- read.csv("miRCarta - miRBase identifier conversion.csv", quote = "")
+mirid_converted <- read.csv("./annotations/miRCarta - miRBase identifier conversion.csv", quote = "")
 
 CM_anno = merge(x = CM_miRNA_expression_alltimepoints, y = mirid_converted, 
                 by.x = "X",                # miRNA expression table
@@ -57,7 +57,7 @@ all_celltypes_mirna_expr = HC_anno_1[complete.cases(HC_anno_1), ]
 # convert to matrix and transpose 
 all_anno_mat = as.matrix(t(all_celltypes_mirna_expr))
 
-write.table(all_anno_mat, file="all_miRNAexpression_alltimepoints_anno.tsv", 
+write.table(all_anno_mat, file="./expression/all_miRNAexpression_alltimepoints_anno.tsv", 
             sep = "\t", row.names = TRUE,
             quote = FALSE)
 
@@ -113,7 +113,7 @@ all_expression_anno = merge(x = all_NCBI_anno, y = CM_EC_FB_HC_expression,
                                by.y = "X",            # conversion table
                                all.x = TRUE)
 
-write.table(all_expression_anno, file="compiled_anno.tsv", 
+write.table(all_expression_anno, file="./significant_genes/compiled_anno.tsv", 
             sep = "\t", row.names = FALSE,
             quote = FALSE)
 # 
@@ -124,7 +124,7 @@ length(unique(all_expression_anno$To))
 
 # Manually change the NCBI IDs that have same gene name
 
-all_compiled_expression_anno <- read.delim("compiled_anno.tsv", quote="", sep = "\t")
+all_compiled_expression_anno <- read.delim("./significant_genes/compiled_anno.tsv", quote="", sep = "\t")
 nrow(all_compiled_expression_anno)
 
 # get rid of rows with NAs
@@ -141,7 +141,7 @@ all_gene_anno_mat = as.matrix(t(log(all_celltypes_gene_expr_1+10, base = 10)))
 View(all_gene_anno_mat)
 
 
-write.table(all_gene_anno_mat, file="all_geneexpression_alltimepoints_anno.tsv", 
+write.table(all_gene_anno_mat, file="./significant_genes/all_geneexpression_alltimepoints_anno.tsv", 
             sep = "\t", row.names = TRUE,
             quote = FALSE)
 View(all_gene_anno_mat)
@@ -224,9 +224,9 @@ ceRNA_interactions_sign <- sponge_compute_p_values(sponge_result = ceRNA_interac
 
 head(ceRNA_interactions_sign)
 # ceRNA interaction network: per celltype ----------------------------------------------------
-sponge_results_dir = "/Volumes/Elements_1/smallRNA_MI/ceRNA/"
+sponge_results_dir = "."
 # for CM
-load(paste0(sponge_results_dir, "CM_SPONGE_network.RData"), ex1 <- new.env())
+load(paste0(sponge_results_dir, "ceRNAs/CM_SPONGE_network.RData"), ex1 <- new.env())
 rm(list = ls(ex1) ) #ls(ex1) #ls.str(ex)
 CM_AMI_ceRNA_interactions_sign = ex1$CM_AMI_ceRNA_interactions_sign
 AMI_genes_miRNA_candidates = ex1$AMI_genes_miRNA_candidates
@@ -238,7 +238,7 @@ sponge_plot_network(ceRNA_interactions_fdr,
                     AMI_genes_miRNA_candidates)
 network_analysis(ceRNA_interactions_fdr = ceRNA_interactions_fdr, celltype = "CM")
 # for EC
-load(paste0(sponge_results_dir, "EC_SPONGE_network.RData"), ex <- new.env())  # load the object
+load(paste0(sponge_results_dir, "ceRNAs/EC_SPONGE_network.RData"), ex <- new.env())  # load the object
 ls(ex) #ls.str(ex)
 
 EC_AMI_ceRNA_interactions_sign = ex$EC_AMI_ceRNA_interactions_sign
@@ -253,7 +253,7 @@ network_analysis(ceRNA_interactions_fdr = ceRNA_interactions_fdr, celltype = "EC
 
 # for FB
 rm(list = ls(ex) )
-load(paste0(sponge_results_dir, "FB_SPONGE_network.RData"), ex <- new.env())  # load the object
+load(paste0(sponge_results_dir, "ceRNAs/FB_SPONGE_network.RData"), ex <- new.env())  # load the object
 ls(ex) #ls.str(ex)
 
 FB_AMI_ceRNA_interactions_sign = ex$FB_AMI_ceRNA_interactions_sign
@@ -268,7 +268,7 @@ network_analysis(ceRNA_interactions_fdr = ceRNA_interactions_fdr, celltype = "FB
 
 # for HC
 rm(list = ls(ex) )
-load(paste0(sponge_results_dir, "HC_SPONGE_network.RData"), ex <- new.env())  # load the object
+load(paste0(sponge_results_dir, "ceRNAs/HC_SPONGE_network.RData"), ex <- new.env())  # load the object
 ls(ex) #ls.str(ex)
 
 HC_AMI_ceRNA_interactions_sign = ex$HC_AMI_ceRNA_interactions_sign
